@@ -3,18 +3,22 @@ const bodyParser = require('body-parser');
 const fs = require('fs');
 const app = express();
 
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 let listaFuncionarios = fs.readFileSync('./funcionarios.json');
 let funcio = JSON.parse(listaFuncionarios);
 
 
+
+// ___rota-01_______________________________________
+
 app.get('/funcionario', (req, res) => {
     res.json(funcio);
 });
 
 
+// ___rota-02_______________________________________
 
 app.post('/funcionario', (req, res) => {
     const funcionario = req.body;
@@ -31,19 +35,29 @@ app.post('/funcionario', (req, res) => {
     res.send('Novo funcionario cadastrado com sucesso!');
 });
 
-// app.get('/funcionario/:idDaEmpresa',(req,res)=>{
+
+// ___rota-03_______________________________________
+
+// app.get('/funcionario/:idDaEmpresa', (req, res) => {
 
 //     const idDaEmpresa = req.params.idDaEmpresa;
-//     for(let funcionario of funcio){
-//         if(funcionario.idDaEmpresa === idDaEmpresa){
+//     let funcionarios = []
+//     for (let funcionario of funcio) {
+//         if (funcionario.idDaEmpresa == idDaEmpresa) {
+//             funcionarios.push(funcionario)
 
-//             res.json(funcionario);
-//             return;
-//         }
+//         }       
 //     }
-
-//     res.status(404).send('Funcionario não encontrado!');
+//     if(funcionarios.length == 0){
+//         res.status(404).send('Funcionario não encontrado!');
+//     }
+    
+//     res.json(funcionario);
+//     return;
 // });
+
+
+// ___rota-04_______________________________________
 
 app.get('/funcionario/:idade', (req, res) => {
 
@@ -55,14 +69,14 @@ app.get('/funcionario/:idade', (req, res) => {
             // console.log(funcionarios);
         }
     }
-
     if (funcionarios.length == 0) {
         res.status(404).send("Funcionário não encontrado!");
     }
     res.json(funcionarios);
     return;
-
 });
+
+
 
 app.listen(3000);
 
